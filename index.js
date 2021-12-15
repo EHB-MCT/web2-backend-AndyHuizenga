@@ -21,12 +21,14 @@ app.get('/drinks', async (req, res) => {
     }
 });
 
-app.get('/drinks',(req, res) => {
+//drinks?id=69
+
+//get a specific drink
+app.get('/drink', (req, res) => {
     res.send('everything OK');
+    console.log(req.query.id);
 })
 
 app.listen(port, () => {
     console.log(`API is running at htpp://localhost:${port}`);
 })
-
-//drinks?id=69
