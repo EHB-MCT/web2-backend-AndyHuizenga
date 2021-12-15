@@ -13,6 +13,14 @@ app.get('/', (req, res) => {
     res.status(300).redirect('/info.html');
 })
 
+
+
+//mongodb config
+
+const {
+    
+}
+
 //return all drinks from the file
 app.get('/drinks', async (req, res) => {
     try {
@@ -43,8 +51,15 @@ app.get('/drink', async (req, res) => {
 
         let favoritedrink = allDrinks[req.query.id];
 
+        if (favoritedrink) {
+            res.status(200).send(favoritedrink);
+            return
+        } else {
+            res.status(200).send('Drink could not be find')
+        }
 
-        res.status(200).send(favoritedrink);
+
+
     } catch (error) {
         console.log(error);
         res.status(500).send('File could not be read! Try again later.....');
@@ -66,7 +81,33 @@ app.listen(port, () => {
     console.log(`My first rest API is running at htpp://localhost:${port}`);
 })
 
-app.post('/saveData', (req, res) => {
+app.post('/saveNewDrink', async (req, res) => {
     console.log(req.body)
-    res.send(`Data received with name ${req.body.drink}`)
+
+    //check if all information is available
+    if (!req.body.id || !req.body.drink || !req.body.ingredient1 || !req.body.ingredient2) {
+        res.status(404).send("Bad request, missing info");
+     return;
+    }
+
+    try {
+        let allDrinks = JSON.parse(await fs.readFile('data/drinks.json'));
+
+        allDrinks[req.body.id] = {
+            drink: req.body.drink,
+            ingredient1: req.body.ingredient1,
+            ingredient2: req.body.ingredient2,
+        }
+
+        //safe the file 
+        await fs.writeFile('data/drinks.json', JSON.stringify(allDrinks))
+
+        //send back successfully
+        res.status(200).send('This drink has successfully been added to the list')
+
+        return;
+    } catch (e) {
+        res.status(500).send('Error took place');
+    }
+
 })
