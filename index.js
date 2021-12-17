@@ -3,6 +3,7 @@ const bodyParser = require('body-parser') /*middlewear*/
 const fs = require('fs/promises')
 const app = express()
 const port = process.env.PORT || 3000
+const { MongoClient } = require('mongodb')
 
 
 app.use(express.static('public'));
@@ -18,8 +19,11 @@ app.get('/', (req, res) => {
 //mongodb config
 
 const {
-    
-}
+    MongoClient,
+    objectId,
+} = require('mongodb');
+const client = new MongoClient(config.baseUrl);
+
 
 //return all drinks from the file
 app.get('/drinks', async (req, res) => {
