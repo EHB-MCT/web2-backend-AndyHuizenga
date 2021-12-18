@@ -73,9 +73,9 @@ app.post('/favoriteDrinks', async (req, res) => {
 app.get('/favoriteDrinks', async (req, res) => {
 
     try {
-        //connect to the db
+        //connect to the mongodb
         await client.connect();
-         console.log("Connected correctly to server");
+        console.log("Connected correctly to server");
         //retrieve the all the drinks from the collection 'favoriteDrinks'
         const col = client.db('course-project').collection('favoriteDrinks');
         const allFavoriteDrinks = await col.find({}).toArray();
@@ -93,3 +93,38 @@ app.get('/favoriteDrinks', async (req, res) => {
     }
 });
 
+app.delete('/favoriteDrinks/:id', async (req, res) => {
+
+    if (!req.params.id) {
+        res.status(400).send({
+            error: 'Bad Request',
+            value: 'No id available in url'
+        });
+        return;
+    }
+
+    try {
+        //connect to the mongodb
+        await client.connect();
+        console.log("Connected correctly to server");
+        //retrieve the all the drinks from the collection 'favoriteDrinks'
+        const col = client.db('course-project').collection('favoriteDrinks');
+
+        // look in the collection for the same id and delete it
+        let itemDeleted = await col.deleteOne({
+            _id: ObjectId(req.params.id)
+        });
+        //Send back successmessage
+        res.status(201).json(itemDeleted);
+        return;
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    } finally {
+        await client.close();
+    }
+});
