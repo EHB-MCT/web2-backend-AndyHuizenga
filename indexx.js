@@ -39,11 +39,7 @@ app.post('/favoriteDrinks', async (req, res) => {
         await client.connect();
         console.log("Connected correctly to server");
         //conect to the database
-        const db = client.db(dbName);
-
-        // Use the collection "people"
-        const col = db.collection("favoriteDrinks");
-
+        const col = client.db('course-project').collection('favoriteDrinks')
         // Construct a document                                                                                                                                                              
         let newFavoriteDrink = {
 
@@ -52,13 +48,10 @@ app.post('/favoriteDrinks', async (req, res) => {
             ingredient2: req.body.ingredient2,
 
         }
-
         // Add the optional session field
         if (req.body.session) {
             newChallenge.session = req.body.session;
         }
-
-
         // Insert a single document, wait for promise so we can read it back
         let insertNewDrink = await col.insertOne(newFavoriteDrink);
         // Find one document
@@ -66,15 +59,37 @@ app.post('/favoriteDrinks', async (req, res) => {
         // Print to the console
         res.status(201).json(newFavoriteDrink);
         return;
-
     } catch (error) {
         console.log(error)
         res.status(500).send({
             error: 'Something went wrong',
             value: error
         });
-
     } finally {
         await client.close();
     }
 });
+
+app.get('/favoriteDrinks', async (req, res) => {
+
+    try {
+        //connect to the db
+        await client.connect();
+         console.log("Connected correctly to server");
+        //retrieve the all the drinks from the collection 'favoriteDrinks'
+        const col = client.db('course-project').collection('favoriteDrinks');
+        const allFavoriteDrinks = await col.find({}).toArray();
+
+        //Send back the data with the response
+        res.status(200).send(allFavoriteDrinks);
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    } finally {
+        await client.close();
+    }
+});
+
