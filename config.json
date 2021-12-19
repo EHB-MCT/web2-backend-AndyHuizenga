@@ -1,0 +1,7 @@
+{
+    "baseUrl": "mongodb+srv://admin:<password>@cluster0.jjvdl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "username": "admin",
+    "pw": "admin",
+    "db": "course-project"
+
+}
