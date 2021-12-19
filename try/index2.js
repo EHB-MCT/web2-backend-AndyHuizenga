@@ -23,7 +23,8 @@ async function run() {
 
             drink: "blue lagoon with id",
             ingredient1: "sprite",
-            ingredient2: "icecubes"
+            ingredient2: "icecubes",
+            timesTried: 0
 
         }
 
