@@ -129,7 +129,7 @@ app.delete('/favoriteDrinks/:id', async (req, res) => {
     }
 });
 
-app.post('/users', async (req, res) => {
+app.post('/createUsers', async (req, res) => {
 
 
     try {
@@ -166,7 +166,7 @@ app.post('/users', async (req, res) => {
     }
 });
 
-app.get('/users', async (req, res) => {
+app.get('/Allusers', async (req, res) => {
 
     try {
         //connect to the mongodb
