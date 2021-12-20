@@ -166,7 +166,7 @@ app.post('/createUsers', async (req, res) => {
     }
 });
 
-app.get('/Allusers', async (req, res) => {
+app.get('/allUsers', async (req, res) => {
 
     try {
         //connect to the mongodb
