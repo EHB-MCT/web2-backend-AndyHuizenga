@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser') /*middlewear*/
 const fs = require('fs/promises')
 const app = express()
+const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const port = process.env.PORT || 3000
 const {
@@ -17,7 +18,8 @@ app.listen(port, () => {
 //create a new mongodb client 
 const url = "mongodb+srv://admin:admin@cluster0.jjvdl.mongodb.net/course-project?retryWrites=true&w=majority";
 const client = new MongoClient(url);
-
+//OPEN for use 
+app.use(cors());
 
 //set folders public
 app.use(express.static('public'));
