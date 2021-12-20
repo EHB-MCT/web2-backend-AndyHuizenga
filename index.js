@@ -129,7 +129,7 @@ app.delete('/favoriteDrinks/:id', async (req, res) => {
     }
 });
 
-app.post('/user', async (req, res) => {
+app.post('/users', async (req, res) => {
 
 
     try {
@@ -137,7 +137,7 @@ app.post('/user', async (req, res) => {
         await client.connect();
         console.log("Connected correctly to server");
         //retrieve the challenges collection data
-        const colli = client.db('course-project').collection('user');
+        const colli = client.db('course-project').collection('users');
 
         let salt = bcrypt.genSaltSync(10);
         var hash = bcrypt.hashSync(req.body.password, salt);
@@ -145,7 +145,7 @@ app.post('/user', async (req, res) => {
         // Create the new Challenge object
         let userInfo = {
 
-            username: req.body.username,
+            name: req.body.name,
             password: hash
         }
 
@@ -164,6 +164,30 @@ app.post('/user', async (req, res) => {
     } finally {
         await client.close();
     }
+});
+
+app.get('/users', async (req, res) => {
+
+    try {
+        //connect to the mongodb
+        await client.connect();
+        console.log("Connected correctly to server");
+        //retrieve the all the drinks from the collection 'favoriteDrinks'
+        const col = client.db('course-project').collection('users');
+        const allUsers = await col.find({}).toArray();
+
+        //Send back the data with the response
+        res.status(200).send(allUsers);
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    } finally {
+        await client.close();
+    }
+
 });
 
 //DONE - update a challenge
