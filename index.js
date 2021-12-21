@@ -18,7 +18,7 @@ app.listen(port, () => {
 //create a new mongodb client 
 const url = "mongodb+srv://admin:admin@cluster0.jjvdl.mongodb.net/course-project?retryWrites=true&w=majority";
 const client = new MongoClient(url);
-//OPEN for use 
+//OPEN for use
 app.use(cors());
 
 //set folders public
@@ -45,10 +45,20 @@ app.post('/favoriteDrinks', async (req, res) => {
         const col = client.db('course-project').collection('favoriteDrinks')
         // Construct a document                                                                                                                                                              
         let newFavoriteDrink = {
-            drink: req.body.drink,
+
+
+            name: req.body.name,
             ingredient1: req.body.ingredient1,
             ingredient2: req.body.ingredient2,
+            ingredient3: req.body.ingredient3,
+            img: req.body.img,
+            amount1: req.body.amount1,
+            amount2: req.body.amount2,
+            amount3: req.body.amount3,
+            instruction: req.body.instructions,
             timesTried: req.body.timesTried,
+            id: req.body.id
+
         }
         // Add the optional session field
         if (req.body.session) {
@@ -195,7 +205,7 @@ app.get('/allUsers', async (req, res) => {
 //DONE - update a challenge
 app.put('/favoriteDrinks/:id', async (req, res) => {
     //Check for body data
-    if (!req.body.timesTried || !req.body.drink || !req.body.ingredient1 || !req.body.ingredient2) {
+    if (!req.body.timesTried) {
         res.status(400).send({
             error: 'Bad Request',
             value: 'Missing name, property'
@@ -231,10 +241,17 @@ app.put('/favoriteDrinks/:id', async (req, res) => {
         }
         // Create the new Challenge object
         let editDrink = {
-            drink: req.body.drink,
+            name: req.body.name,
             ingredient1: req.body.ingredient1,
             ingredient2: req.body.ingredient2,
+            ingredient3: req.body.ingredient3,
+            img: req.body.img,
+            amount1: req.body.amount1,
+            amount2: req.body.amount2,
+            amount3: req.body.amount3,
+            instruction: req.body.instructions,
             timesTried: req.body.timesTried,
+            id: req.body.id
         }
         // Add the optional session field
         if (req.body.session) {
