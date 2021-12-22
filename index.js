@@ -3,7 +3,6 @@ const bodyParser = require('body-parser') /*middlewear*/
 const fs = require('fs/promises')
 const app = express()
 const cors = require('cors');
-require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const port = process.env.PORT || 3000
 const {
